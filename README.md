@@ -1,0 +1,16 @@
+TO RUN THE PROJECT INSTALL ALL THE PACKAGES FROM REQUIREMENTS.TXT
+THEN OPEN THE FOLDER WITH VSCODE AND TYPE cd .\Zorway_Assignment
+then write python manage.py runserver then go to the link
+
+for viewing the api data of all students  ------ http://127.0.0.1:8000/api
+individual data can also be seen using primary key or just clicking on the student name
+for viewing the database go to ------- http://127.0.0.1:8000/admin
+
+username - AMAN
+password - admin 
+
+I have taken care of staff and student login if staff is there he/she can view all the student data as well as mark present or absent . 
+
+If student logs in  then he can just view his individual data 
+
+I have created present and absent button in such a way that they can be pressed only once in a day to avoid proxy 
