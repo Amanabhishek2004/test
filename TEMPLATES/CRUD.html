@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+      <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -73,22 +74,31 @@
   </header>
 
   <section>
-    {% for i in obj %}
+    
+   <h2>{{stu.name.id}}--------{{stu.name.username}}</h2>
+   <h3>{{stu.name.email}}</h3>
+   {% for i in obj %}
     <div class="card">
-     <a href = "{% url "student-data" i.id %}?name={{i.name.username}}"> <h2>{{i.name}}</h2></a>
-      <p>hello</p>
-      {% comment %} {% if request.user.is_staff %}
-      <form method "POST" , action = "{% url "update_data" present %}" >
-        {% csrf_token %} 
-        <button type = "submit" , class="button-green">PRESENT</button>
-      </form>
-       <form method = "POST" , action = "{% url "update_data" absent %}"> 
-        {% csrf_token %} 
-        <button type = "submit" , class="button-red">ABSENT</button>
-      </form>   
-      {% endif %} {% endcomment %}
-    </div>
-    {% endfor %}
+      <h3>{{i.name}}</h3>     
+
+
+{% if request.user.is_staff %}
+
+<form method="POST" action="{% url 'update-user' i.name 'present' %}?name={{stu.name.username}}">
+ {% csrf_token %} 
+ <button type="submit" class="button-green">PRESENT</button>
+</form>
+
+<form method = "POST"  action = "{% url "update-user" i.name  'absent' %}?name={{stu.name.username}}" > 
+ {% csrf_token %} 
+ <button type = "submit"  class="button-red">ABSENT</button>
+</form>  
+
+{% endif %}
+
+</div>
+{% endfor %}
+ 
   </section>
 
   <footer>
@@ -97,3 +107,6 @@
 
 </body>
 </html>
+
+
+

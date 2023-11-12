@@ -1,6 +1,7 @@
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Subject(models.Model):
@@ -17,18 +18,19 @@ def _post_save_receiver(sender,instance , **kwargs):
           
       
 class Student(models.Model):
-      name = models.CharField(max_length=25)
+      name = models.ForeignKey(User , on_delete=models.CASCADE )
+      # name = models.CharField(max_length=25)
       attendance_status = models.CharField(max_length=7)
       subjects = models.ManyToManyField(Subject)
 
       def __str__(self) -> str:
-            return self.name
+            return self.name.username
 
 
 
 class Attendance(models.Model):
       subject = models.ForeignKey(Subject , on_delete= models.CASCADE)
-      student = models.ForeignKey(Student , on_delete= models.CASCADE)
+      student = models.ForeignKey(Student , on_delete= models.CASCADE , null = True)
       no_of_classes_attended = models.IntegerField()
 
       def __str__(self) -> str:

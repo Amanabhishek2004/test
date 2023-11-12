@@ -5,9 +5,16 @@ from .models import *
 from rest_framework import serializers
 from .models import Student, Subject, Attendance
 
+
+class userserilizer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username"]
+
+
 class StudentSerializer(serializers.ModelSerializer):
     Attendance_in_each_subject = serializers.SerializerMethodField(read_only=True)
-
+    name = userserilizer()
     class Meta:
         model = Student
         fields = ["id", "name", "attendance_status", "Attendance_in_each_subject"]
