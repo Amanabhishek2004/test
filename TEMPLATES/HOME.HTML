@@ -37,14 +37,12 @@
     }
 
     .button-green, .button-red {
-      margin-top: 1em;
       padding: 0.5em 1em;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
       color: #fff;
-      width: 45%; /* Adjusted width to fit two buttons in each card */
     }
 
     .button-green {
@@ -69,26 +67,43 @@
 <body>
 
   <header>
-    <h1>API Data Dashboard</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        {% if not request.user.is_staff %}
+        <a href = "{% url "update-user" %}"><button class="button-red">Update</button></a>
+        {% endif %}
+      </div>
+      <h1>API Data Dashboard</h1>
+      <div>
+        {% if not request.user.is_authenticated %}
+        <a href = "{% url "logout-user" %}"><button class="button-green">logout</button></a>
+        {% else %}
+        <a href = "{% url "login-user" %}"><button class="button-green">logout</button></a>
+        {% endif %}
+      </div>
+    </div>
   </header>
 
   <section>
+    {% if request.user.is_staff %}
     {% for i in obj %}
     <div class="card">
-     <a href = "{% url "student-data" i.id %}?name={{i.name.username}}"> <h2>{{i.name}}</h2></a>
-      <p>hello</p>
-      {% comment %} {% if request.user.is_staff %}
-      <form method "POST" , action = "{% url "update_data" present %}" >
-        {% csrf_token %} 
-        <button type = "submit" , class="button-green">PRESENT</button>
-      </form>
-       <form method = "POST" , action = "{% url "update_data" absent %}"> 
-        {% csrf_token %} 
-        <button type = "submit" , class="button-red">ABSENT</button>
-      </form>   
-      {% endif %} {% endcomment %}
+      <a href="{% url 'student-data' i.id %}?name={{i.name.username}}">
+        <h2>{{i.name.username}}</h2>
+      </a>
+      <p>EMAIL -{{i.name.email}}</p>
+      <p>ID - {{i.name.id}}</p>
     </div>
     {% endfor %}
+    {% else %}
+    <div class="card">
+      <a href="{% url 'student-data' obj.id %}?name={{obj.name.username}}">
+        <h2>{{obj.name.username}}</h2>
+      </a>
+      <p>EMAIL -{{obj.name.email}}</p>
+      <p>ID - {{obj.id}}</p>
+    </div>
+    {% endif %}
   </section>
 
   <footer>

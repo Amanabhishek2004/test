@@ -18,7 +18,7 @@ def _post_save_receiver(sender,instance , **kwargs):
           
       
 class Student(models.Model):
-      name = models.ForeignKey(User , on_delete=models.CASCADE )
+      name = models.ForeignKey(User , on_delete=models.CASCADE  ,null = True , blank = True)
       # name = models.CharField(max_length=25)
       attendance_status = models.CharField(max_length=7)
       subjects = models.ManyToManyField(Subject)

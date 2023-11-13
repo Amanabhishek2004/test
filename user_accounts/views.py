@@ -1,15 +1,28 @@
 from django.shortcuts import render , redirect
 from datetime import datetime , timedelta
 from .models import *
+from django.http import HttpResponse
+from django.contrib.auth import authenticate, login , logout
 import requests
 # Create your views here.
+from django import forms
 
 def home(request):
-        response = requests.get("http://127.0.0.1:8000/api/").json()
+        print(request.user.id)
+        
+        
+        if  request.user.is_staff:
+         
+         response = requests.get(f"http://127.0.0.1:8000/api/").json()  
+        
+        else:
+         stu = Student.objects.get(name = request.user)
+         response = requests.get(f"http://127.0.0.1:8000/api/students/{stu.pk}").json()
+
         return render(request , "HOME.HTML" , {"obj":response})
 
 
-def student_data(request ,pk):
+def student_data(request,pk):
         student = Student.objects.get(id = pk)
         context = {
                 "obj":student.subjects.all(),
@@ -88,3 +101,104 @@ def update_data(request,pk,data):
 
    
   return redirect("student-data" ,pk = student.pk)
+
+
+def login_user(request):
+   
+
+    page = 'login'
+
+    
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return HttpResponse('you are not a registered user')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect("home")
+
+    return render(request, 'login.html' , {"page":page})
+
+
+def logout_user(request):
+    logout(request)
+
+    return redirect("login-user")
+
+
+
+def signup(request):
+    if request.method == 'POST':
+        if not User.objects.filter(username=request.POST["username"]).exists() and request.POST['password1'] == request.POST['password']:
+            # Create data for the StudentSerializer
+            student_data = {
+                "name": {
+                    "username": request.POST['username'],
+                    "email": request.POST['email'],
+                    "password": request.POST['password1']
+                },
+                "attendance_status": "GOOD"  # Replace with actual value
+            }
+
+            # Make a POST request to the API
+            api_url = 'http://127.0.0.1:8000/api/'
+            response = requests.post(api_url, json=student_data)
+            print(response.json())
+
+            
+          
+
+    return render(request, 'REGISTER.html')
+
+
+class UpdateStudentForm(forms.Form):
+ 
+    email = forms.EmailField()
+    
+
+
+
+from django.contrib.auth.decorators import login_required
+
+
+
+@login_required(login_url="login-user")
+def update_student(request):
+    form = UpdateStudentForm(request.POST or None, initial={
+      
+        'email': request.user.email
+        
+       # Replace with actual value
+    })
+    
+    student = Student.objects.get(name = request.user)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            # Create data for the StudentSerializer
+            student_data = {
+                'name': {
+                    
+                    'email': form.cleaned_data['email']
+                    
+                }
+         
+            }
+
+            # Make a PUT or PATCH request to the API
+            api_url = f'http://127.0.0.1:8000/api/students/{student.pk}/'
+            response = requests.patch(api_url, json=student_data)
+            print(response)
+            
+            
+
+    return render(request, 'update.html', {'form': form})
+
+

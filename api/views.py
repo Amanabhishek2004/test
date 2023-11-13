@@ -11,16 +11,23 @@ from rest_framework.response import Response
 
 class StudeDetailPIView(generics.ListCreateAPIView):
                queryset = Student.objects.all()
-               serializer_class = StudentSerializer
+            
                lookup_field = "id"
+               def get_serializer_class(self):
+                 if self.request.method in ["POST", "PUT", "PATCH"]:
+                     return StudentSerializer
+                 else:
+                    return StudentReadSerializer
+                     
             #    def get_queryset(self):
-            #      request = self.request                
-            #      data =  Student.objects.all()
-            #      if request.user.is_staff:
-            #         return data
-            #      else:
-            #         return data.filter(name = request.user.username)
+            #     #  request = self.request                
+            #     #  data =  Student.objects.all()
+            #     #  if request.user.is_staff:
+            #     #     return data
+            #     #  else:
+            #     #     return data.filter(name = request.user)
                  
+
 detail_view = StudeDetailPIView.as_view()
                
 from rest_framework import viewsets
@@ -31,6 +38,7 @@ from rest_framework.response import Response
 class AttendanceViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    lookup_field = "id"
 
     @action(detail=True, methods=['patch'])
     def update_attendance(self, request, pk=""):
@@ -58,11 +66,18 @@ class AttendanceViewSet(viewsets.ModelViewSet):
 
         return Response({"response": "Attendance instance not found"}, status=404)
 
-# This version includes a check to make sure the student object exists before proceeding with further logic. If the issue persists, review the factors mentioned above, and ensure that your Django project is configured correctly to handle PATCH requests for the specific endpoint.
-
 AttendanceViewSet.as_view({"patch":"update_attendance"})
 
-
+class Individual_Student_Api(generics.CreateAPIView , generics.DestroyAPIView , generics.RetrieveUpdateAPIView):
+      
+      queryset = Student.objects.all()
+      lookup_field = "id"
+      def get_serializer_class(self):
+        if self.request.method in ["POST", "PUT", "PATCH"]:
+            return StudentSerializer
+        else:
+         return StudentReadSerializer
+        
 
 
 

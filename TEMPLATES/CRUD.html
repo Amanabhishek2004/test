@@ -1,5 +1,5 @@
 
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -79,7 +79,11 @@
    <h3>{{stu.name.email}}</h3>
    {% for i in obj %}
     <div class="card">
-      <h3>{{i.name}}</h3>     
+      <h3>{{i.name}}</h3>    
+      <h3>{{i.no_of_classes}}</h3>     
+      <h3>{{i.no_of_classes_attended}}</h3>     
+         
+
 
 
 {% if request.user.is_staff %}

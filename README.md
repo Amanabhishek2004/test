@@ -6,8 +6,17 @@ for viewing the api data of all students  ------ http://127.0.0.1:8000/api
 individual data can also be seen using primary key or just clicking on the student name
 for viewing the database go to ------- http://127.0.0.1:8000/admin
 
+
+
+----- login through this to view the staff privileges
+
 username - AMAN
 password - admin 
+
+----- login through this to view the student privileges
+
+username = HARSH
+password = AMAN@2004
 
 I have taken care of staff and student login if staff is there he/she can view all the student data as well as mark present or absent . 
 
