@@ -24,9 +24,11 @@ def home(request):
 
 def student_data(request,pk):
         student = Student.objects.get(id = pk)
+        data = Attendance.objects.filter(student = student)
         context = {
-                "obj":student.subjects.all(),
-                "stu":student
+                # "obj":student.subjects.all(),
+                "stu":student,
+                "data":data
         }
         return render(request , "CRUD.html" , context)
 
@@ -63,7 +65,8 @@ def update_data(request,pk,data):
              return redirect("student-data" ,pk = student.pk)
          
          elif count_value.absent == "marked":
-             requests.patch(f"http://127.0.0.1:8000/api/mark_attendance/{pk}?value={data}&name={student_name}")
+             response = requests.patch(f"http://127.0.0.1:8000/api/mark_attendance/{pk}?value={data}&name={student_name}")
+             print(response.json())
              count_value.present = "marked"
              count_value.absent = "unmarked"
              count_value.save()

@@ -62,7 +62,7 @@ class AttendanceViewSet(viewsets.ModelViewSet):
             elif data == "present":
                 attendance_instance.no_of_classes_attended += 1
                 attendance_instance.save()
-                return Response({"response": "present marked"}, status=200)
+                return Response({"response": attendance_instance.no_of_classes_attended}, status=200)
 
         return Response({"response": "Attendance instance not found"}, status=404)
 

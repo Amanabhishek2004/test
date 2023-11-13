@@ -65,6 +65,10 @@ class StudentSerializer(serializers.ModelSerializer):
 
             # Assign the created User instance to the Student
             student_instance.name = user_instance
+            subs = Subject.objects.all()
+            for i in subs:
+                student_instance.subjects.add(i)
+                
             student_instance.save()
 
         return student_instance

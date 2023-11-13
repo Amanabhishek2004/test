@@ -76,24 +76,26 @@
   <section>
     
    <h2>{{stu.name.id}}--------{{stu.name.username}}</h2>
-   <h3>{{stu.name.email}}</h3>
-   {% for i in obj %}
+   
+   <p>{{stu.name.email}}</p>
+   {% comment %} {% if request.user.is_staff %}{% endif %} {% endcomment %}
+   {% for i in data %}
     <div class="card">
-      <h3>{{i.name}}</h3>    
+      <h3>{{i.subject.name}}</h3>    
       <h3>{{i.no_of_classes}}</h3>     
-      <h3>{{i.no_of_classes_attended}}</h3>     
+      <h3>No of classes attend - {{i.no_of_classes_attended}}</h3>     
          
 
 
 
 {% if request.user.is_staff %}
 
-<form method="POST" action="{% url 'update-user' i.name 'present' %}?name={{stu.name.username}}">
+<form method="POST" action="{% url 'update-user' i.subject.name 'present' %}?name={{stu.name.username}}">
  {% csrf_token %} 
  <button type="submit" class="button-green">PRESENT</button>
 </form>
 
-<form method = "POST"  action = "{% url "update-user" i.name  'absent' %}?name={{stu.name.username}}" > 
+<form method = "POST"  action = "{% url "update-user" i.subject.name  'absent' %}?name={{stu.name.username}}" > 
  {% csrf_token %} 
  <button type = "submit"  class="button-red">ABSENT</button>
 </form>  
