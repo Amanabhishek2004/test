@@ -4,6 +4,7 @@ from .models import *
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login , logout
 import requests
+from django.utils import timezone
 # Create your views here.
 from django import forms
 
@@ -55,13 +56,16 @@ def update_data(request,pk,data):
      current_time_naive = datetime.now()
      current_time = current_time_naive.replace(tzinfo=count_value.updated.tzinfo)
      if data=="present":
-         if count_value.updated - current_time >= timedelta(days=1):
+         if current_time - count_value.updated >= timedelta(seconds=1) and (count_value.present == "marked" or count_value.present == "unmarked" ):
+             print(count_value.updated - current_time)
              requests.patch(f"http://127.0.0.1:8000/api/mark_attendance/{pk}?value={data}&name={student_name}")
              count_value.present = "marked"
              count_value.absent = "unmarked"
+             count_value.updated.replace(tzinfo=timezone.utc)
              count_value.save()
 
-         if count_value.present == "marked":      
+         if count_value.present == "marked":
+             print(count_value.updated - current_time)      
              return redirect("student-data" ,pk = student.pk)
          
          elif count_value.absent == "marked":
@@ -80,7 +84,7 @@ def update_data(request,pk,data):
                    
      if data == "absent":
           
-          if count_value.updated - current_time >= timedelta(days=1):
+          if current_time-count_value.updated >= timedelta(days=1):
             #  requests.patch(f"http://127.0.0.1:8000/api/mark_attendance/{pk}?value={data}&name={student_name}")
              count_value.present = "marked"
              count_value.absent = "unmarked"
