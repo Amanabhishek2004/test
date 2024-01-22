@@ -21,7 +21,7 @@ def home(request):
          if stu:
             response = [requests.get(f"http://127.0.0.1:8000/api/students/{stu.pk}").json()]
          
-        return render(request , "HOME.HTML" , {"obj":response})
+        return render(request , "HOME.HTML" , {"obj":response , "staff" : staff_data.objects.filter(name = request.user)})
     else:
         return redirect("login-user")
 
@@ -213,7 +213,8 @@ def assignments_uploader(request):
            response = response.json()
 
        context = {
-           "response":response
+           "response":response,
+           "staff":staff_data.objects.filter(name = request.user)
        }
 
        return render(request , "ASSIGNMENTS.html" , context)

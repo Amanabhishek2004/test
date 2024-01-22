@@ -104,10 +104,11 @@
     <br>
 
    {% endif %}
-   {% if i.is_draft == "False" %}
-   <a href = "{% url "update-grade" i.grade.id  i.id%}"> <button type="submit" class = "red-button" >Edit Grade</button></a>
+   {% if staff %}
 
+   <a href = "{% url "update-grade" i.grade.id  i.id%}"> <button type="submit" class = "red-button" >Edit Grade</button></a>
    {% endif %}
+
 </div>
  </div>
 

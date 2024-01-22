@@ -69,17 +69,20 @@
   <header>
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <div>
-        {% if not request.user.is_staff %}
+        {% if staff  %}
+        <a></a>
+        {% else %}
         <a href = "{% url "update-user" %}"><button class="button-red">Update</button></a>
         {% endif %}
       </div>
       <h1>API Data Dashboard</h1>
       <div>
-        {% if not request.user.is_authenticated %}
+        {% if request.user.is_authenticated %}
         <a href = "{% url "logout-user" %}"><button class="button-green">logout</button></a>
         {% else %}
-        <a href = "{% url "login-user" %}"><button class="button-green">logout</button></a>
+        <a href = "{% url "login-user" %}"><button class="button-green">login</button></a>
         {% endif %}
+      
       </div>
     </div>
   </header>

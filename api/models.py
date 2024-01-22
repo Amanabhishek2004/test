@@ -46,22 +46,24 @@ class assignements(models.Model):
 
       def __str__(self) -> str:
             return f"{self.student.name.username} ------> {self.subject.name}--------->{self.submitted_to.name.username}"
-# @receiver(pre_save, sender=assignements)
-# def _post_save_receiver(sender,instance , **kwargs):
-#       instance.is_draft = "True"
 
       
-
+@receiver(pre_save, sender=Subject)
+def _post_save_receiver(sender,instance,created , **kwargs):
+      if created:
+         for i in instance.subjects.all():
+            Attendance.objects.create(student = instance , subject = i)
 
 
 
 class Attendance(models.Model):
       subject = models.ForeignKey(Subject , on_delete= models.CASCADE)
       student = models.ForeignKey(Student , on_delete= models.CASCADE , null = True)
-      no_of_classes_attended = models.IntegerField()
+      no_of_classes_attended = models.IntegerField(default = 0)
 
       def __str__(self) -> str:
             return f"{self.student}----{self.subject}------{self.no_of_classes_attended}"
+
 
 
 class Grade(models.Model):

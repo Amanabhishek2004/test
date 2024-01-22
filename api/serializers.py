@@ -84,7 +84,7 @@ class AssignmentSerializer(serializers.ModelSerializer):
         if Grade.objects.filter(assignement = instance): 
              pass
         else:
-          Grade.objects.create(assignement = instance)
+          Grade.objects.create(assignement = instance , value = "null" , student = instance.student)
        
      instance.subject = validated_data.get("subject", instance.subject)
     
