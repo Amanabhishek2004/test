@@ -38,3 +38,7 @@ I have taken care of staff and student login if staff is there he/she can view a
 If student logs in  then he can just view his individual data 
 
 I have created present and absent button in such a way that they can be pressed only once in a day to avoid proxy 
+
+I have added here the student assignmnet management and draft facility i.e student can save the assignment as draft uand edit it as draft unil and unless it finally submitted  
+The teachers can view only the assignment submitted to them and grade it 
+The principle can view any assignment and edit the grade given by the teacher
