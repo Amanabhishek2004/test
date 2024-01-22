@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from rest_framework import viewsets ,generics
-from django.views.generic import CreateView
-from rest_framework import mixins 
-from rest_framework.views import APIView
 from .serializers import *
 from user_accounts.models import *
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from rest_framework import status
+from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 # Create your views here.
 
@@ -19,21 +21,10 @@ class StudeDetailPIView(generics.ListCreateAPIView):
                  else:
                     return StudentReadSerializer
                      
-            #    def get_queryset(self):
-            #     #  request = self.request                
-            #     #  data =  Student.objects.all()
-            #     #  if request.user.is_staff:
-            #     #     return data
-            #     #  else:
-            #     #     return data.filter(name = request.user)
                  
 
 detail_view = StudeDetailPIView.as_view()
                
-from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-
 
 class AttendanceViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
@@ -68,6 +59,7 @@ class AttendanceViewSet(viewsets.ModelViewSet):
 
 AttendanceViewSet.as_view({"patch":"update_attendance"})
 
+
 class Individual_Student_Api(generics.CreateAPIView , generics.DestroyAPIView , generics.RetrieveUpdateAPIView):
       
       queryset = Student.objects.all()
@@ -81,6 +73,56 @@ class Individual_Student_Api(generics.CreateAPIView , generics.DestroyAPIView , 
 
 
 
+class Grading(generics.RetrieveUpdateAPIView):
+    
+    queryset = Grade.objects.all()
+    serializer_class = GradeSerializer
+    
 
+
+
+
+
+
+class AssignmentsHandler(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = assignements.objects.all()
+    serializer_class = AssignmentSerializer
+
+
+
+    """
+use the last date to submit assignment
+    """
+
+
+class assignement_view(generics.ListAPIView , generics.CreateAPIView):
+
+    queryset = assignements.objects.all()
+    serializer_class = AssignmentSerializer
+    
+    
+    def get_queryset(self):
+
+        user = User.objects.filter(username = self.request.GET.get("username")).first()
+
+        if staff_data.objects.filter(name = user).first() == None:
+         subject_name = self.request.query_params.get('Subject', None)
+         student_name = self.request.query_params.get('student_name', None)
+         queryset = self.queryset      
+         queryset = queryset.filter(subject = Subject.objects.filter(name = subject_name).first() ,student__name=User.objects.filter(username = student_name).first())
+        
+        elif  staff_data.objects.filter(name = user).first().designation == "Teacher":
+          subject_name = self.request.query_params.get('Subject', None)
+          student_name = self.request.query_params.get('student_name', None)
+          queryset = self.queryset
+          queryset = queryset.filter(submitted_to = staff_data.objects.filter(name = user).first() , subject = Subject.objects.filter(name = subject_name).first() ,student__name=User.objects.filter(username = student_name).first() , is_draft = "False")
+        
+        elif staff_data.objects.filter(name = user).first().designation == "Principle":
+           subject_name = self.request.query_params.get('Subject', None)
+           student_name = self.request.query_params.get('student_name', None)
+           queryset = self.queryset
+           queryset = queryset.filter(subject = Subject.objects.filter(name = subject_name).first() ,student__name=User.objects.filter(username = student_name).first()) 
+        return queryset
 
 

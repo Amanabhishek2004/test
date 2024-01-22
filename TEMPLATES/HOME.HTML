@@ -85,14 +85,14 @@
   </header>
 
   <section>
-    {% if request.user.is_staff %}
+  {% if obj != "None"%}
     {% for i in obj %}
     <div class="card">
       <a href="{% url 'student-data' i.id %}?name={{i.name.username}}">
         <h2>{{i.name.username}}</h2>
       </a>
-      <p>EMAIL -{{i.name.email}}</p>
-      <p>ID - {{i.name.id}}</p>
+      <p>EMAIL - {{i.name.email}}</p>
+      <p>ID - {{i.id}}</p>
     </div>
     {% endfor %}
     {% else %}
@@ -100,7 +100,7 @@
       <a href="{% url 'student-data' obj.id %}?name={{obj.name.username}}">
         <h2>{{obj.name.username}}</h2>
       </a>
-      <p>EMAIL -{{obj.name.email}}</p>
+      <p>EMAIL - {{obj.name.email}}</p>
       <p>ID - {{obj.id}}</p>
     </div>
     {% endif %}

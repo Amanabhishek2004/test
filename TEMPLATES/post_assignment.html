@@ -1,0 +1,20 @@
+<!-- your_template.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Assignment</title>
+</head>
+<body>
+
+  <h2>Create Assignment</h2>
+  <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      {{ form.as_p }}
+
+      <button type="submit">Submit</button>
+  </form>
+
+</body>
+</html>

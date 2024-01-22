@@ -28,16 +28,18 @@
     }
 
     .card {
-      flex: 1;
+      {% comment %} flex: 1; {% endcomment %}
       padding: 1em;
-      margin: 1em;
+      margin: auto;
       background-color: #34495e;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       text-align: center;
+      height:50hv;
+      width:30vw;
     }
 
-    .button-green, .button-red {
+    .button-green, .button-red  , .button-blue , .button-yellow{
       margin-top: 1em;
       padding: 0.5em 1em;
       border: none;
@@ -51,11 +53,16 @@
     .button-green {
       background-color: #2ecc71; /* Green */
     }
+    .button-yellow {
+      background-color: yellow;
+    }
 
     .button-red {
       background-color: #e74c3c; /* Red */
     }
-
+    .button-blue {
+      background-color: blue ;
+    }
     footer {
       background-color: #2c3e50;
       color: #fff;
@@ -65,45 +72,54 @@
       bottom: 0;
       width: 100%;
     }
+    .abcd{
+      position: absolute;
+      top: 123px;
+      left: 140px;
+    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>API Data Dashboard</h1>
+
   </header>
 
   <section>
-    
-   <h2>{{stu.name.id}}--------{{stu.name.username}}</h2>
+    <div class="card1">
+   <div class ="abc">{{stu.name.id}}--------{{stu.name.username}}</div>
+ {% for i in data %}
    
-   <p>{{stu.name.email}}</p>
-   {% comment %} {% if request.user.is_staff %}{% endif %} {% endcomment %}
-   {% for i in data %}
-    <div class="card">
-      <h3>{{i.subject.name}}</h3>    
-      <h3>{{i.no_of_classes}}</h3>     
-      <h3>No of classes attend - {{i.no_of_classes_attended}}</h3>     
-         
+   <h4 class = 'abcd'>{{stu.name.email}}</h4>
+   
 
+   
 
+   
+  </div> 
+  <div class="card">
+    <h3>{{i.subject.name}}</h3>    
+    <h3>Total No of classes - {{i.subject.No_of_classes}}</h3>     
+    <h3>No of classes attend - {{i.no_of_classes_attended}}</h3> 
+    {% if obj %}
+    <form method="POST" action="{% url 'update-user' i.subject.name 'present' %}?name={{stu.name.username}}">
+      {% csrf_token %} 
+      <button type="submit" class="button-green">PRESENT</button>
+    </form>
+    
+    <form method = "POST"  action = "{% url "update-user" i.subject.name  'absent' %}?name={{stu.name.username}}" > 
+      {% csrf_token %} 
+      <button type = "submit"  class="button-red">ABSENT</button>
+    </form>       
+    {% endif %}
+    <a href = "{% url "assignment"  %}?stu={{stu.name.username}}&sub={{i.subject.name}}"><button type = "submit"  class="button-blue">ASSIGNMENTS</button></a>
+    <a href = "{% url "post-assignment" %}?stu={{stu.name.username}}&sub={{i.subject.name}}"><button type = "submit" class = "button-yellow">POST-ASSIGNMENT</button></a>
+  
 
-{% if request.user.is_staff %}
-
-<form method="POST" action="{% url 'update-user' i.subject.name 'present' %}?name={{stu.name.username}}">
- {% csrf_token %} 
- <button type="submit" class="button-green">PRESENT</button>
-</form>
-
-<form method = "POST"  action = "{% url "update-user" i.subject.name  'absent' %}?name={{stu.name.username}}" > 
- {% csrf_token %} 
- <button type = "submit"  class="button-red">ABSENT</button>
-</form>  
-
-{% endif %}
-
+      
 </div>
-{% endfor %}
+ {% endfor %} 
  
   </section>
 

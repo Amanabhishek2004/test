@@ -4,7 +4,7 @@ then write python manage.py runserver then go to the link
 
 for viewing the api data of all students  ------ http://127.0.0.1:8000/api
 individual data can also be seen using primary key or just clicking on the student name
-for viewing the database go to ------- http://127.0.0.1:8000/admin
+for viewing the database go to ------- http://127.0.0.1:8000/admin/
 
 
 
