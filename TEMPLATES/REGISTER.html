@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -90,6 +90,124 @@
              <label for="password">Password</label>
              <input type="password" id="password" name="password1" placeholder="confirm-password" required>
          </div>
+            <div class="form-group">
+                <button type="submit">Sign Up</button>
+            </div>
+        </form>
+        <div class="footer">
+            <p>Already have an account? <a href="{% url "login-user" %}">Login</a></p>
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #232323, #1a1a1a);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .signup-container {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+            width: 350px;
+            text-align: center;
+        }
+
+        .signup-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #ccc; /* Lighter text color for labels */
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #ccc; /* Lighter text color for footer */
+        }
+
+        /* Style for the "Login" link */
+        a {
+            text-decoration: none;
+            color: #007bff; /* Blue color for link */
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+
+        a:hover {
+            color: #0056b3; /* Darker blue color on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Choose a password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="password1" placeholder="Confirm your password" required>
+            </div>
             <div class="form-group">
                 <button type="submit">Sign Up</button>
             </div>

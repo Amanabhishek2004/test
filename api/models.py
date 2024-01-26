@@ -53,7 +53,11 @@ def _post_save_receiver(sender,instance,created , **kwargs):
       if created:
          for i in instance.subjects.all():
             Attendance.objects.create(student = instance , subject = i)
-
+            
+@receiver(post_save, sender=assignements)
+def _post_save_assignment(sender,instance,created,**kwargs):
+      if created:
+             Grade.objects.create(value ="value" , assignement = instance , student = instance.student )
 
 
 class Attendance(models.Model):

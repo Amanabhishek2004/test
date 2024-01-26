@@ -233,6 +233,7 @@ def assignment_creator(request):
                 "subject": Subject.objects.get(name = subject_name).id,
                 "submitted_to":form_data.cleaned_data["submitted_to"].id,
             }
+           assignements.objects.create(student = Student.objects.get(name__username = student_name) , is_draft = "True" , subject = Subject.objects.get(name = subject_name) , submitted_to = form_data.cleaned_data["submitted_to"] )
            
            response = requests.post(api_endpoint, data=data)
            target = assignements.objects.filter(student__id = data["student"] , subject__id = data["subject"] , submitted_to__id = data["submitted_to"]  , is_draft = data["is_draft"]).order_by("-created_at").first()

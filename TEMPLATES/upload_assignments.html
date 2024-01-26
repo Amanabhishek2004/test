@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -93,4 +93,109 @@
 </html>
 
 
+ {% endcomment %}
 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Upload</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a1a, #232323);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: calc(100% - 20px);
+            max-width: 800px;
+            padding: 40px;
+            margin: 0 auto;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .upload-form {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #ccc;
+        }
+
+        input[type="file"] {
+            width: calc(100% - 16px);
+            padding: 12px;
+            margin-bottom: 30px;
+            box-sizing: border-box;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .success {
+            background-color: #4CAF50;
+        }
+
+        .error {
+            background-color: #f44336;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+ <div class="container">
+  <h1>Assignment Upload</h1>
+  <form class="upload-form" id="uploadForm1" method="POST" enctype="multipart/form-data">
+   {% csrf_token %}
+   <label for="fileUpload1">Select File:</label>
+   <input type="file" id="fileUpload1" name="fileUpload" accept=".pdf, .docx, .txt" required>
+   <button type="submit">Upload Assignment</button>
+  </form>
+  <div id="message" class="hidden"></div>
+ </div>
+</body>
+</html>
