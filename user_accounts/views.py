@@ -167,16 +167,10 @@ class UpdateStudentForm(forms.Form):
 
 
 
-
-
-
 @login_required(login_url="login-user")
 def update_student(request):
     form = UpdateStudentForm(request.POST or None, initial={
-      
         'email': request.user.email
-        
-       # Replace with actual value
     })
     
     student = Student.objects.get(name = request.user)
@@ -185,19 +179,14 @@ def update_student(request):
         if form.is_valid():
             # Create data for the StudentSerializer
             student_data = {
-                'name': {
-                    
+                'name': {   
                     'email': form.cleaned_data['email']
-                    
-                }
-         
+                }         
             }
-
             # Make a PUT or PATCH request to the API
             api_url = f'http://127.0.0.1:8000/api/students/{student.pk}/'
             response = requests.patch(api_url, json=student_data)
             print(response)
-            
             
 
     return render(request, 'update.html', {'form': form})

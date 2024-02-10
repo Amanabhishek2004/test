@@ -38,6 +38,7 @@ class staff_data(models.Model):
 class assignements(models.Model):
       
       student = models.ForeignKey(Student,on_delete=models.CASCADE)
+      # submitted_to = models.CharField(max_length = 30)
       submitted_to = models.ForeignKey(staff_data , on_delete = models.CASCADE ,null = True ,blank = True)
       data = models.FileField(upload_to="./assignemnets", max_length=100 , blank=True , null=True)
       subject = models.ForeignKey(Subject , null = True , on_delete = models.CASCADE)
@@ -74,3 +75,22 @@ class Grade(models.Model):
       value = models.CharField(max_length = 25 , null = True)
       assignement = models.ForeignKey(assignements ,on_delete = models.CASCADE , null = True , blank = True)
       student = models.ForeignKey(Student , on_delete = models.CASCADE , null = True , blank = True)
+
+
+# class Assignmnet_given_by_teacher(models.Model):
+
+#       title = models.CharField(max_length = 30)
+#       teacher_name = models.ForeignKey(staff_data , on_delete = models.CASCADE)
+#       data = models.ManyToManyField(assignements , related_name="data")
+      
+
+# class Assignment_uploaded(models.Model):
+#       For_data = models.ManyToManyField(Assignmnet_given_by_teacher , on_delete = models.CASCADE)
+#       name = models.ForeignKey(staff_data , on_delete = models.CASCADE)
+      
+
+"""
+TEACHER ------> ALL ASSIGNMENT POSTED BY HIM  ------> MANY TO MANY --------> STUDENT_ASSIGNMENT ----------> 
+"""
+
+
